@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Reusable Data Table Component
 
-## Getting Started
+A flexible and customizable data table component built with Next.js, shadcn/ui, and TanStack Table. This component was developed during ongoing work projects and will continue to evolve as new use cases and improvements are identified.
 
-First, run the development server:
+## Overview
+
+While it's impossible to cover every possible use case for data tables, this component aims to provide a solid foundation for common scenarios encountered in web applications. The component will be continuously improved and updated based on real-world requirements and feedback.
+
+## Dependencies
+
+### shadcn/ui Components
+
+This project utilizes the following shadcn/ui components:
+
+- Table
+- Button
+- Input
+- Select
+- Checkbox
+
+Visit [shadcn/ui](https://ui.shadcn.com/) for detailed documentation and installation instructions for each component.
+
+### TanStack Table
+
+The table functionality is powered by [TanStack Table](https://tanstack.com/table/v8) (formerly React Table), providing robust table features like sorting, filtering, and pagination.
+
+## Installation
+
+1. Install the required dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install @tanstack/react-table
+# Install shadcn/ui components as needed
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Copy the following from this repository to your project:
+   - The entire `components` directory
+   - The types defined in `types.ts`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage Example
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```tsx
+import { DataTable } from "@/components/data-table";
+import { columns } from "./columns";
 
-## Learn More
+export default function YourComponent() {
+  const data = [
+    { id: 1, name: "John", age: 30 },
+    { id: 2, name: "Jane", age: 25 },
+  ];
 
-To learn more about Next.js, take a look at the following resources:
+  return (
+    <DataTable columns={columns} data={data} searchKey="name" pagination />
+  );
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Sortable columns
+- Search/filtering
+- Pagination
+- Row selection
+- Customizable column definitions
+- Responsive design
 
-## Deploy on Vercel
+## Changelog
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### [Unreleased]
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Initial component release
+
+### [0.1.0] - YYYY-MM-DD
+
+- Basic table functionality
+- Search and sort features
+- Pagination implementation
+
+## Contributing
+
+This is an evolving project, and contributions are welcome! If you have improvements or new features to suggest, please feel free to:
+
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+
+## Future Improvements
+
+- [ ] Advanced filtering options
+- [ ] Export functionality
+- [ ] Custom cell renderers
+- [ ] Row actions
+- [ ] Bulk actions
+- [ ] Responsive improvements
+
+## License
+
+MIT License - Feel free to use and modify as needed.
