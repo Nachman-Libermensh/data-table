@@ -55,6 +55,107 @@ export default function YourComponent() {
 }
 ```
 
+## Usage Examples
+
+### Basic Column Definitions
+
+```tsx
+export const columns: ColumnDef<YourDataType>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => <StatusBadge status={row.getValue("status")} />,
+  },
+  {
+    accessorKey: "date",
+    header: "Date",
+    cell: ({ row }) => format(new Date(row.getValue("date")), "dd/MM/yyyy"),
+  },
+];
+```
+
+### Advanced Column with Custom Cell Rendering
+
+```tsx
+{
+  accessorKey: "statistics",
+  header: "Statistics",
+  cell: ({ row }) => {
+    const data = row.getValue("statistics") as string[];
+    return (
+      <div className="flex gap-2">
+        <Badge>{data.length} Total</Badge>
+        <Badge variant="outline">
+          {data.filter(item => item.isActive).length} Active
+        </Badge>
+        <Badge variant="secondary">
+          {data.filter(item.isComplete).length} Complete
+        </Badge>
+      </div>
+    );
+  },
+}
+```
+
+### Toolbar Configuration
+
+```tsx
+const toolbar: ToolbarConfig = {
+  controls: [
+    {
+      type: "search",
+      column: "name",
+      placeholder: "Search by name...",
+      index: 0,
+    },
+    {
+      type: "action",
+      element: <CreateNewButton />,
+      index: 1,
+    },
+    {
+      type: "filter",
+      options: ["Active", "Pending", "Completed"],
+      column: "status",
+      index: 2,
+    },
+  ],
+};
+```
+
+### Complete Implementation Example
+
+```tsx
+export default function TableView() {
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      toolbar={toolbar}
+      onRowClick={(row) => {
+        router.push(`/details/${row.original.id}`);
+      }}
+      pagination
+    />
+  );
+}
+```
+
+### Props Reference
+
+| Prop       | Type                    | Description                    |
+| ---------- | ----------------------- | ------------------------------ |
+| columns    | `ColumnDef[]`           | Column definitions array       |
+| data       | `T[]`                   | Data array to display          |
+| toolbar    | `ToolbarConfig`         | Optional toolbar configuration |
+| onRowClick | `(row: Row<T>) => void` | Optional row click handler     |
+| pagination | `boolean`               | Enable/disable pagination      |
+| searchKey  | `string`                | Key to use for global search   |
+
 ## Features
 
 - Sortable columns
