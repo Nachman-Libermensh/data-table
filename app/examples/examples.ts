@@ -5,6 +5,11 @@ export const examples = [
     href: "/examples/basic",
   },
   {
+    title: "Multi Selection",
+    description: "Table with row selection and batch actions",
+    href: "/examples/multi-select",
+  },
+  {
     title: "Sorting",
     description: "Table with built-in sorting capabilities",
     href: "/examples/sorting",

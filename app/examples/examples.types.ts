@@ -28,9 +28,22 @@ export interface ElectionRecord {
   מחל: number;
   עם: number;
   שס: number;
-  // ... other party fields remain the same
+  ג: number;
+}
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  stock: number;
+  status: "in-stock" | "low-stock" | "out-of-stock";
 }
 
+export interface ToolbarProps {
+  selectedRows: Product[];
+  onDelete: () => void;
+  onStatusUpdate: (status: Product["status"]) => void;
+}
 export interface ExchangeRate {
   symbol: string;
   name: string;
