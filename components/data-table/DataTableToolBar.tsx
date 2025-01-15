@@ -1,10 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -13,11 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { uniqueValuesInArray } from "@/lib/utils";
-import { ToolbarConfig, ToolbarControl } from "@/types/types.client";
 
-import { Columns, Search } from "lucide-react";
 import { useTable } from "./DataTableLayout";
+import { ToolbarConfig, ToolbarControl } from "@/types";
 
 export default function DataTableToolBar({
   config,

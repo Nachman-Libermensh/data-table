@@ -16,7 +16,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { WithChildren } from "@/types/types.shared";
+import { WithChildren } from "../../types";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
