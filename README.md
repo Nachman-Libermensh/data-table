@@ -1,107 +1,91 @@
 # Reusable Data Table Component
 
-A flexible and customizable data table component built with Next.js, shadcn/ui, and TanStack Table. This component was developed during ongoing work projects and will continue to evolve as new use cases and improvements are identified.
-
-## Overview
-
-While it's impossible to cover every possible use case for data tables, this component aims to provide a solid foundation for common scenarios encountered in web applications. The component will be continuously improved and updated based on real-world requirements and feedback.
+A flexible and customizable data table component built with Next.js, shadcn/ui, and TanStack Table.
 
 ## Dependencies
 
-### shadcn/ui Components
-
-This project utilizes the following shadcn/ui components:
+### Required shadcn/ui Components
 
 - Table
 - Button
 - Input
 - Select
-- Checkbox
+- DropdownMenu
 
-Visit [shadcn/ui](https://ui.shadcn.com/) for detailed documentation and installation instructions for each component.
+### Core Dependencies
 
-### TanStack Table
+- @tanstack/react-table
 
-The table functionality is powered by [TanStack Table](https://tanstack.com/table/v8) (formerly React Table), providing robust table features like sorting, filtering, and pagination.
+## Component API
 
-## Installation
+### DataTable Component
 
-1. Install the required dependencies:
+#### Required Props
 
-```bash
-npm install @tanstack/react-table
-# Install shadcn/ui components as needed
-```
+- `columns: ColumnDef<TData, TValue>[]` - Column definitions
+- `data: TData[]` - Data array to be displayed
 
-2. Copy the following from this repository to your project:
-   - The entire `components` directory
-   - The types defined in `types.ts`
+#### Optional Props
 
-## Usage Example
+- `toolbar?: ToolbarConfig` - Configuration for table toolbar
+- `onRowClick?: (row: Row<TData>) => void` - Handler for row click events
+- `renderSubRow?: (row: Row<TData>) => React.ReactNode` - Render function for expandable row content
+- `selectedId?: string` - ID of currently selected row
+- `expandable?: boolean` - Enable row expansion functionality
 
-```tsx
-import { DataTable } from "@/components/data-table";
-import { columns } from "./columns";
+### Usage Examples
 
-export default function YourComponent() {
-  const data = [
-    { id: 1, name: "John", age: 30 },
-    { id: 2, name: "Jane", age: 25 },
-  ];
-
-  return (
-    <DataTable columns={columns} data={data} searchKey="name" pagination />
-  );
-}
-```
-
-## Usage Examples
-
-### Basic Column Definitions
+Basic column implementation with DataTableColumnHeader:
 
 ```tsx
-export const columns: ColumnDef<YourDataType>[] = [
+const columns: ColumnDef<YourDataType>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Name" />
+    ),
   },
   {
     accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <StatusBadge status={row.getValue("status")} />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
   },
   {
     accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => format(new Date(row.getValue("date")), "dd/MM/yyyy"),
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date" />
+    ),
   },
 ];
 ```
 
-### Advanced Column with Custom Cell Rendering
+Basic implementation:
 
 ```tsx
-{
-  accessorKey: "statistics",
-  header: "Statistics",
-  cell: ({ row }) => {
-    const data = row.getValue("statistics") as string[];
-    return (
-      <div className="flex gap-2">
-        <Badge>{data.length} Total</Badge>
-        <Badge variant="outline">
-          {data.filter(item => item.isActive).length} Active
-        </Badge>
-        <Badge variant="secondary">
-          {data.filter(item.isComplete).length} Complete
-        </Badge>
-      </div>
-    );
-  },
+import { DataTable } from "@/components/data-table";
+
+export default function TableView() {
+  const columns = [
+    {
+      accessorKey: "name",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Name" />
+      ),
+    },
+    // ...more columns
+  ];
+
+  const data = [
+    { id: 1, name: "Example" },
+    // ...more data
+  ];
+
+  return <DataTable columns={columns} data={data} />;
 }
 ```
 
-### Toolbar Configuration
+With toolbar and row expansion:
 
 ```tsx
 const toolbar: ToolbarConfig = {
@@ -109,122 +93,118 @@ const toolbar: ToolbarConfig = {
     {
       type: "search",
       column: "name",
-      placeholder: "Search by name...",
+      placeholder: "Search names...",
       index: 0,
     },
     {
-      type: "action",
-      element: <CreateNewButton />,
+      type: "filter",
+      column: "status",
+      placeholder: "Filter status",
+      options: [
+        { label: "Active", value: "active" },
+        { label: "Inactive", value: "inactive" },
+      ],
       index: 1,
     },
     {
-      type: "filter",
-      options: ["Active", "Pending", "Completed"],
-      column: "status",
+      type: "action",
+      label: "Add New",
+      onClick: () => {},
       index: 2,
     },
   ],
 };
+
+return (
+  <DataTable
+    columns={columns}
+    data={data}
+    toolbar={toolbar}
+    expandable={true}
+    renderSubRow={(row) => (
+      <div className="p-4">Expanded content for {row.original.name}</div>
+    )}
+  />
+);
 ```
 
-### Complete Implementation Example
+### Internal Context and Hooks
+
+The component uses React Context to share table state and functionality through `useTable` hook:
+
+#### useTable Hook
+
+Provides access to all TanStack Table features and internal state:
 
 ```tsx
-export default function TableView() {
-  return (
-    <DataTable
-      columns={columns}
-      data={data}
-      toolbar={toolbar}
-      onRowClick={(row) => {
-        router.push(`/details/${row.original.id}`);
-      }}
-      pagination
-    />
-  );
+const table = useTable<YourDataType>();
+
+// Available features:
+table.getRowModel(); // Access row data
+table.getHeaderGroups(); // Access header groups
+table.getState(); // Access table state
+table.getColumn(columnId); // Get column by ID
+table.previousPage(); // Pagination control
+table.nextPage(); // Pagination control
+table.setPageSize(); // Set items per page
+```
+
+### Toolbar Configuration
+
+The ToolbarConfig interface supports three types of controls:
+
+```typescript
+interface ToolbarConfig {
+  controls: Array<{
+    type: "search" | "filter" | "action";
+    index?: number;
+    // For search controls
+    column?: string;
+    placeholder?: string;
+    // For filter controls
+    options?: Array<{ label: string; value: string }>;
+    // For action controls
+    label?: string;
+    onClick?: () => void;
+    variant?: string;
+    icon?: React.ReactNode;
+    element?: React.ReactNode;
+  }>;
 }
 ```
 
-### Props Reference
+### Features
 
-| Prop       | Type                    | Description                    |
-| ---------- | ----------------------- | ------------------------------ |
-| columns    | `ColumnDef[]`           | Column definitions array       |
-| data       | `T[]`                   | Data array to display          |
-| toolbar    | `ToolbarConfig`         | Optional toolbar configuration |
-| onRowClick | `(row: Row<T>) => void` | Optional row click handler     |
-| pagination | `boolean`               | Enable/disable pagination      |
-| searchKey  | `string`                | Key to use for global search   |
-
-## Features
-
+- RTL support
 - Sortable columns
-- Search/filtering
+- Column filtering
 - Pagination
-- Row selection
-- Customizable column definitions
-- Responsive design
+- Row expansion
+- Custom toolbar controls
+- Row actions
+- Context-based state management
 
-## Advanced Features
+### Known Issues and Future Improvements
 
-### Expandable Rows with Sub-Components
+#### Toolbar Implementation
 
-The table supports expandable rows with custom sub-components:
+The current toolbar implementation has several limitations and needs improvement:
 
-## Component Architecture
+1. **Configuration Structure**: The current ToolbarConfig interface needs to be simplified and made more intuitive.
+2. **Flexibility Issues**: The toolbar's sorting mechanism and control rendering need to be more flexible.
+3. **RTL Support**: Better RTL support for toolbar controls is needed.
+4. **Type Safety**: The toolbar configuration types need to be more strictly typed.
 
-### Core Components
+Planned improvements:
 
-#### DataTable (DataTableLayout)
+- Redesign the toolbar configuration API
+- Add better type inference for control options
+- Implement more flexible control positioning
+- Add support for control groups
+- Improve RTL layout handling
 
-Required Props:
-
-- `columns: ColumnDef<TData, TValue>[]` - Table column definitions
-- `data: TData[]` - Data array to display
-
-Optional Props:
-
-- `toolbar?: ToolbarConfig` - Toolbar configuration
-- `onRowClick?: (row: Row<TData>) => void` - Row click handler
-- `renderSubRow?: (row: Row<TData>) => React.ReactNode` - Sub-row render function
-- `selectedId?: string` - Selected row ID
-- `expandable?: boolean` - Enable row expansion
-
-#### DataTableToolBar
-
-Required Props:
-
-- `config: ToolbarConfig` - Toolbar configuration object
-
-## Changelog
-
-### [Unreleased]
-
-- Initial component release
-
-### [0.1.0] - YYYY-MM-DD
-
-- Basic table functionality
-- Search and sort features
-- Pagination implementation
-
-## Contributing
-
-This is an evolving project, and contributions are welcome! If you have improvements or new features to suggest, please feel free to:
-
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
-
-## Future Improvements
-
-- [ ] Advanced filtering options
-- [ ] Export functionality
-- [ ] Custom cell renderers
-- [ ] Row actions
-- [ ] Bulk actions
-- [ ] Responsive improvements
+Until these improvements are implemented, consider the toolbar feature as beta and subject to breaking changes.
 
 ## License
 
-MIT License - Feel free to use and modify as needed.
+MIT License
