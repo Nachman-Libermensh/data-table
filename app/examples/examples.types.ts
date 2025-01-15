@@ -7,6 +7,30 @@ export interface User {
     name: string;
   };
 }
+export interface ElectionResponse {
+  result: {
+    records: ElectionRecord[];
+    total: number;
+  };
+  success: boolean;
+}
+
+export interface ElectionRecord {
+  _id: number;
+  "סמל ועדה": number;
+  "שם ישוב": string;
+  "סמל ישוב": number;
+  בזב: number;
+  מצביעים: number;
+  פסולים: number;
+  כשרים: number;
+  אמת: number;
+  מחל: number;
+  עם: number;
+  שס: number;
+  // ... other party fields remain the same
+}
+
 export interface ExchangeRate {
   symbol: string;
   name: string;

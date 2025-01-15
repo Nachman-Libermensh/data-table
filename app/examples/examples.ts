@@ -1,7 +1,7 @@
 export const examples = [
   {
-    title: "Basic Table",
-    description: "Simple data table with essential functionality",
+    title: "Basic",
+    description: "Simple table with basic functionality",
     href: "/examples/basic",
   },
   {
@@ -13,6 +13,11 @@ export const examples = [
     title: "Filtering",
     description: "Advanced filtering and search functionality",
     href: "/examples/filtering",
+  },
+  {
+    title: "RTL Direction",
+    description: "Table with right-to-left support and Hebrew content",
+    href: "/examples/rtl-direction",
   },
   {
     title: "Expandable Rows",
