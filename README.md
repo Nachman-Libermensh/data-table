@@ -6,17 +6,22 @@ A flexible and customizable data table component built with Next.js, shadcn/ui, 
 
 While it's impossible to cover every possible use case for data tables, this component aims to provide a solid foundation for common scenarios encountered in web applications. The component will be continuously improved and updated based on real-world requirements and feedback.
 
+## Live Examples
+
+Check out our interactive examples at [https://data-table-examples.vercel.app/](https://data-table-examples.vercel.app/)
+
 ## Features
 
-- ✅ Full RTL support
+- ✅ Full RTL support with built-in direction context
 - 🔍 Advanced search and filtering
-- 📊 Column sorting
-- 📑 Pagination
+- 📊 Column sorting with RTL-aware icons
+- 📑 Pagination with RTL support
 - 📱 Responsive design
 - 🔄 Row expansion
 - 🎯 Custom toolbar controls
 - 📋 Row actions
 - 🔄 Context-based state management
+- 🌐 Bi-directional (RTL/LTR) support
 
 ## Dependencies
 
@@ -365,3 +370,31 @@ Found a bug or want to contribute? Please feel free to:
 ## License
 
 MIT License
+
+## Changelog
+
+### 2024-01-17
+
+- ✨ Added Direction Provider for built-in RTL/LTR support
+- 🌐 Implemented bi-directional layout system
+- 🔄 Added RTL-aware pagination controls
+- 🎯 Updated toolbar components with RTL support
+- 📊 Added direction-aware column headers and sorting indicators
+- 🎨 Enhanced dropdown menus with proper RTL positioning
+- 📱 Improved responsive layout for both directions
+- 🔍 Added RTL-aware search and filter components
+- 📖 Updated documentation with RTL usage examples
+- 🌟 Created live examples website (https://data-table-examples.vercel.app/)
+- 🛠️ Refactored component architecture for better direction support
+- 🎯 Added automatic text alignment based on direction context
+- ⚡ Optimized performance for direction changes
+- 🔧 Added direction prop to main DataTable component
+
+Key Features Added:
+
+- Direction context provider for consistent RTL/LTR support
+- Automatic text and icon alignment based on direction
+- Bi-directional pagination controls
+- RTL-aware dropdowns and menus
+- Direction-sensitive toolbar layout
+- Improved component documentation
