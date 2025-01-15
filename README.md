@@ -165,6 +165,37 @@ export default function TableView() {
 - Customizable column definitions
 - Responsive design
 
+## Advanced Features
+
+### Expandable Rows with Sub-Components
+
+The table supports expandable rows with custom sub-components:
+
+## Component Architecture
+
+### Core Components
+
+#### DataTable (DataTableLayout)
+
+Required Props:
+
+- `columns: ColumnDef<TData, TValue>[]` - Table column definitions
+- `data: TData[]` - Data array to display
+
+Optional Props:
+
+- `toolbar?: ToolbarConfig` - Toolbar configuration
+- `onRowClick?: (row: Row<TData>) => void` - Row click handler
+- `renderSubRow?: (row: Row<TData>) => React.ReactNode` - Sub-row render function
+- `selectedId?: string` - Selected row ID
+- `expandable?: boolean` - Enable row expansion
+
+#### DataTableToolBar
+
+Required Props:
+
+- `config: ToolbarConfig` - Toolbar configuration object
+
 ## Changelog
 
 ### [Unreleased]
