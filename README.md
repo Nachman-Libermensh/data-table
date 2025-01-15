@@ -213,28 +213,104 @@ table.nextPage(); // Pagination control
 table.setPageSize(); // Set items per page
 ```
 
+> **Note:** You can expose additional TanStack Table functionality by editing the useTable hook defined in the DataTableLayout file. Any TanStack Table functionality you want to expose for use in child components will need to be included in this file.
+
 ### Toolbar Configuration
 
-The ToolbarConfig interface supports three types of controls:
+The toolbar system supports four types of controls: search, filter, action, and column visibility.
 
 ```typescript
 interface ToolbarConfig {
-  controls: Array<{
-    type: "search" | "filter" | "action";
-    index?: number;
-    // For search controls
-    column?: string;
-    placeholder?: string;
-    // For filter controls
-    options?: Array<{ label: string; value: string }>;
-    // For action controls
-    label?: string;
-    onClick?: () => void;
-    variant?: string;
-    icon?: React.ReactNode;
-    element?: React.ReactNode;
-  }>;
+  controls: ToolbarControl[];
 }
+
+type ToolbarControl =
+  | SearchControl
+  | FilterControl
+  | ActionControl
+  | ColumnVisibilityControl;
+
+interface SearchControl {
+  index?: number;
+  type: "search";
+  column: string;
+  placeholder?: string;
+}
+
+interface FilterControl {
+  index?: number;
+  type: "filter";
+  column: string;
+  options?: { label: string; value: string }[];
+  placeholder?: string;
+  dynamic?: boolean; // When true, options are generated from unique column values
+}
+
+interface ActionControl {
+  index?: number;
+  type: "action";
+  element?: React.ReactNode; // Custom element for the action
+  label?: string; // Used when element is not provided
+  icon?: React.ReactNode; // Used when element is not provided
+  onClick?: () => void; // Used when element is not provided
+  variant?: "default" | "outline" | "ghost";
+}
+
+interface ColumnVisibilityControl {
+  index?: number;
+  type: "columnVisibility";
+  columns?: string[]; // Optional - if not provided, shows all columns
+}
+```
+
+Example usage:
+
+```tsx
+const toolbar: ToolbarConfig = {
+  controls: [
+    {
+      type: "search",
+      column: "name",
+      placeholder: "Search names...",
+      index: 0,
+    },
+    {
+      type: "filter",
+      column: "status",
+      options: [
+        { label: "Active", value: "active" },
+        { label: "Inactive", value: "inactive" },
+      ],
+      placeholder: "Filter by status",
+      index: 1,
+    },
+    {
+      type: "filter",
+      column: "category",
+      dynamic: true, // Will generate options from unique values in the category column
+      placeholder: "Select category",
+      index: 2,
+    },
+    {
+      type: "action",
+      label: "Add New",
+      icon: <PlusIcon className="w-4 h-4" />,
+      onClick: () => console.log("Add new clicked"),
+      variant: "default",
+      index: 3,
+    },
+    {
+      type: "action",
+      element: <CustomButton>Custom Action</CustomButton>, // Custom element
+      index: 4,
+    },
+    {
+      type: "columnVisibility",
+      columns: ["name", "status", "category"],
+      index: 5,
+    },
+  ],
+};
 ```
 
 ### Known Issues and Future Improvements

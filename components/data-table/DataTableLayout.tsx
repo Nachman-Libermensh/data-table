@@ -41,7 +41,7 @@ const DataTableContext = createContext<TableType<any> | undefined>(undefined);
 export function useTable<TData>() {
   const context = useContext(DataTableContext) as TableType<TData>;
   if (!context) {
-    throw new Error("אתה יכול להשתמש ב-useTable רק בתוך ספק הטבלה");
+    throw new Error("useTable can only be used within a table provider");
   }
 
   return context;
