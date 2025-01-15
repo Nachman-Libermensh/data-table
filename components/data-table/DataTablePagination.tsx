@@ -1,8 +1,8 @@
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
+  ChevronFirst,
+  ChevronLast,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,17 +14,36 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTable } from "./DataTableLayout";
+import { useDirection } from "./DirectionProvider";
 
 function DataTablePagination() {
   const table = useTable();
-
+  const dir = useDirection();
+  const FirstIcon = dir === "rtl" ? ChevronLast : ChevronFirst;
+  const PrevIcon = dir === "rtl" ? ChevronRight : ChevronLeft;
+  const NextIcon = dir === "rtl" ? ChevronLeft : ChevronRight;
+  const LastIcon = dir === "rtl" ? ChevronFirst : ChevronLast;
   return (
     <div className="py-2">
-      <div className="flex justify-between">
-        <div className="flex items-center self-start">
-          <p className="ml-1 text-sm font-medium text-muted-foreground">הצג</p>
+      <div
+        className={`flex ${
+          dir === "rtl" ? "flex-row-reverse" : ""
+        } justify-between`}
+      >
+        <div
+          className={`flex items-center ${
+            dir === "rtl" ? "flex-row-reverse" : ""
+          }`}
+        >
+          <p
+            className={`${
+              dir === "rtl" ? "mr-1" : "ml-1"
+            } text-sm font-medium text-muted-foreground`}
+          >
+            {dir === "rtl" ? "הצג" : "Show"}
+          </p>
           <Select
-            dir="rtl"
+            dir={dir}
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
               table.setPageSize(Number(value));
@@ -32,68 +51,73 @@ function DataTablePagination() {
             disabled={table.getRowModel().rows.length === 0}
           >
             <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue
-                className="text-sm"
-                placeholder={table.getState().pagination.pageSize}
-              />
+              <SelectValue className="text-sm" />
             </SelectTrigger>
-            <SelectContent className="w-[70px] min-w-[70px]">
+            <SelectContent>
               {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem
-                  key={pageSize}
-                  className="cursor-pointer text-sm transition-colors hover:text-primary"
-                  value={`${pageSize}`}
-                >
+                <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <p className="mr-1 text-sm font-medium text-muted-foreground">
-            שורות
+          <p
+            className={`${
+              dir === "rtl" ? "mr-1" : "ml-1"
+            } text-sm font-medium text-muted-foreground`}
+          >
+            {dir === "rtl" ? "שורות" : "rows"}
           </p>
         </div>
 
-        <div className="flex items-center">
+        <div
+          className={`flex items-center space-x-2 ${
+            dir === "rtl" ? "flex-row-reverse space-x-reverse" : ""
+          }`}
+        >
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            size="icon"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">דלג לעמוד הראשון</span>
-            <ArrowRightIcon className="h-4 w-4" />
+            <FirstIcon className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
-            className="h-8 w-8 p-0"
+            size="icon"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">חזור לעמוד קודם</span>
-            <ChevronRightIcon className="h-4 w-4" />
+            <PrevIcon className="h-4 w-4" />
           </Button>
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium text-muted-foreground">
-            עמוד {table.getState().pagination.pageIndex + 1} מתוך{" "}
-            {table.getPageCount()}
+          <div className="flex items-center gap-1">
+            <p className="text-sm font-medium">
+              {dir === "rtl" ? "עמוד" : "Page"}
+            </p>
+            <span className="text-sm font-medium">
+              {table.getState().pagination.pageIndex + 1}
+            </span>
+            <p className="text-sm font-medium">
+              {dir === "rtl" ? "מתוך" : "of"}
+            </p>
+            <span className="text-sm font-medium">{table.getPageCount()}</span>
           </div>
           <Button
             variant="outline"
-            className="h-8 w-8 p-0"
+            size="icon"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">עבור לעמוד הבא</span>
-            <ChevronLeftIcon className="h-4 w-4" />
+            <NextIcon className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            size="icon"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">דלג לעמוד האחרון</span>
-            <ArrowLeftIcon className="h-4 w-4" />
+            <LastIcon className="h-4 w-4" />
           </Button>
         </div>
       </div>

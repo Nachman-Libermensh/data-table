@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useDirection } from "./DirectionProvider";
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -28,43 +29,64 @@ export function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
+  const dir = useDirection();
+
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>;
   }
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
+    <div
+      className={cn(
+        "flex items-center",
+        dir === "rtl" ? "space-x-reverse" : "space-x-2",
+        className
+      )}
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className="-ml-3 h-8 data-[state=open]:bg-accent"
+            className={cn(
+              "h-8 data-[state=open]:bg-accent",
+              dir === "rtl" ? "-mr-3" : "-ml-3"
+            )}
           >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
+              <ArrowDownIcon
+                className={cn("h-4 w-4", dir === "rtl" ? "mr-2" : "ml-2")}
+              />
             ) : column.getIsSorted() === "asc" ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
-            ) : (
-              ""
-              // <CaretSortIcon className="ml-2 h-4 w-4" />
-            )}
+              <ArrowUpIcon
+                className={cn("h-4 w-4", dir === "rtl" ? "mr-2" : "ml-2")}
+              />
+            ) : null}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
+        <DropdownMenuContent align={dir === "rtl" ? "end" : "start"}>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Asc
+            <ArrowUpIcon
+              className={cn(
+                "h-3.5 w-3.5 text-muted-foreground/70",
+                dir === "rtl" ? "ml-2" : "mr-2"
+              )}
+            />
+            {dir === "rtl" ? "סדר עולה" : "Asc"}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Desc
+            <ArrowDownIcon
+              className={cn(
+                "h-3.5 w-3.5 text-muted-foreground/70",
+                dir === "rtl" ? "ml-2" : "mr-2"
+              )}
+            />
+            {dir === "rtl" ? "סדר יורד" : "Desc"}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            {/* <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" /> */}
-            Hide
+            {dir === "rtl" ? "הסתר" : "Hide"}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

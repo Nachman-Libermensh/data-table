@@ -25,10 +25,12 @@ import DataTableBody from "./DataTableBody";
 import DataTablePagination from "./DataTablePagination";
 import DataTableToolBar from "./DataTableToolBar";
 import { ToolbarConfig } from "@/types";
+import { Direction, DirectionProvider } from "./DirectionProvider";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  direction?: Direction;
   toolbar?: ToolbarConfig;
   onRowClick?: (row: Row<TData>) => void;
   renderSubRow?: (row: Row<TData>) => React.ReactNode;
@@ -52,6 +54,7 @@ export default function DataTableLayout<TData, TValue>({
   data,
   toolbar,
   onRowClick,
+  direction,
   selectedId,
   renderSubRow,
   expandable,
@@ -89,20 +92,22 @@ export default function DataTableLayout<TData, TValue>({
 
   return (
     <DataTableContext.Provider value={table}>
-      <section className="px-1 py-2">
-        {toolbar && <DataTableToolBar config={toolbar} />}
-        <div className="rounded-md border">
-          <Table>
-            <DataTableHeader />
-            <DataTableBody
-              onRowClick={onRowClick}
-              selectedId={selectedId}
-              renderSubRow={renderSubRow} // Add this line
-            />
-          </Table>
-        </div>
-        <DataTablePagination />
-      </section>
+      <DirectionProvider value={direction || "ltr"}>
+        <section className="px-1 py-2">
+          {toolbar && <DataTableToolBar config={toolbar} />}
+          <div className="rounded-md border">
+            <Table>
+              <DataTableHeader />
+              <DataTableBody
+                onRowClick={onRowClick}
+                selectedId={selectedId}
+                renderSubRow={renderSubRow} // Add this line
+              />
+            </Table>
+          </div>
+          <DataTablePagination />
+        </section>
+      </DirectionProvider>
     </DataTableContext.Provider>
   );
 }
