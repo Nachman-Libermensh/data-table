@@ -27,3 +27,12 @@ export interface Post {
   title: string;
   body: string;
 }
+export interface Character {
+  name: string;
+  height: string;
+  mass: string;
+  birth_year: string;
+  gender: string;
+  homeworld: string;
+  species: string;
+}
