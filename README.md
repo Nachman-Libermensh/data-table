@@ -1,20 +1,57 @@
 # Reusable Data Table Component
 
-A flexible and customizable data table component built with Next.js, shadcn/ui, and TanStack Table.
+A flexible and customizable data table component built with Next.js, shadcn/ui, and TanStack Table. This component was developed during ongoing work projects and will continue to evolve as new use cases and improvements are identified.
+
+## Overview
+
+While it's impossible to cover every possible use case for data tables, this component aims to provide a solid foundation for common scenarios encountered in web applications. The component will be continuously improved and updated based on real-world requirements and feedback.
+
+## Features
+
+- ✅ Full RTL support
+- 🔍 Advanced search and filtering
+- 📊 Column sorting
+- 📑 Pagination
+- 📱 Responsive design
+- 🔄 Row expansion
+- 🎯 Custom toolbar controls
+- 📋 Row actions
+- 🔄 Context-based state management
 
 ## Dependencies
 
+### Required Core Dependencies
+
+```bash
+npm install @tanstack/react-table
+```
+
 ### Required shadcn/ui Components
 
-- Table
-- Button
-- Input
-- Select
-- DropdownMenu
+This project utilizes the following shadcn/ui components:
 
-### Core Dependencies
+- Table (`@/components/ui/table`)
+- Button (`@/components/ui/button`)
+- Input (`@/components/ui/input`)
+- Select (`@/components/ui/select`)
+- DropdownMenu (`@/components/ui/dropdown-menu`)
 
-- @tanstack/react-table
+Visit [shadcn/ui](https://ui.shadcn.com/) for detailed documentation and installation instructions for each component.
+
+### TanStack Table
+
+The table functionality is powered by [TanStack Table](https://tanstack.com/table/v8) (formerly React Table), providing robust table features like sorting, filtering, and pagination.
+
+## Installation
+
+1. Install the required dependencies as shown above
+
+2. Copy the following from this repository to your project:
+
+   - The entire `components/data-table` directory
+   - The types defined in `types.ts`
+
+3. Ensure your project has the necessary shadcn/ui components installed
 
 ## Component API
 
@@ -128,6 +165,33 @@ return (
 );
 ```
 
+### Advanced Features
+
+#### Context-Based State Management
+
+The table uses React Context to provide access to table state and functionality throughout its components:
+
+```tsx
+const table = useTable<YourDataType>();
+```
+
+#### Row Expansion System
+
+Support for expandable rows with custom content:
+
+```tsx
+<DataTable
+  expandable={true}
+  renderSubRow={(row) => (
+    <div className="p-4">Custom expansion content for {row.original.name}</div>
+  )}
+/>
+```
+
+#### Toolbar System
+
+Note: Currently in beta, planned for improvements.
+
 ### Internal Context and Hooks
 
 The component uses React Context to share table state and functionality through `useTable` hook:
@@ -173,17 +237,6 @@ interface ToolbarConfig {
 }
 ```
 
-### Features
-
-- RTL support
-- Sortable columns
-- Column filtering
-- Pagination
-- Row expansion
-- Custom toolbar controls
-- Row actions
-- Context-based state management
-
 ### Known Issues and Future Improvements
 
 #### Toolbar Implementation
@@ -204,6 +257,34 @@ Planned improvements:
 - Improve RTL layout handling
 
 Until these improvements are implemented, consider the toolbar feature as beta and subject to breaking changes.
+
+### Component Architecture
+
+#### Core Components
+
+- `DataTableLayout` - Main component wrapper
+- `DataTableHeader` - Table header management
+- `DataTableBody` - Table body and row management
+- `DataTableToolBar` - Toolbar controls (Beta)
+- `DataTableColumnHeader` - Column header with sort controls
+- `DataTableRowActions` - Row action menu
+- `DataTablePagination` - Pagination controls
+
+### Best Practices
+
+1. Always use `DataTableColumnHeader` for basic column headers
+2. Implement error boundaries around the table component
+3. Consider pagination for large datasets
+4. Use proper typing for your data structures
+5. Implement proper loading states
+
+### Contributing
+
+Found a bug or want to contribute? Please feel free to:
+
+1. Open an issue
+2. Submit a pull request
+3. Suggest improvements
 
 ## License
 
