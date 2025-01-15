@@ -1,36 +1,49 @@
 import { ColumnDef } from "@tanstack/react-table";
-
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ExchangeRate } from "../examples.types";
+import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
 
 export const columns: ColumnDef<ExchangeRate>[] = [
   {
     accessorKey: "symbol",
-    header: "Symbol",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Symbol" />
+    ),
     cell: ({ row }) => {
       const symbol = row.getValue("symbol") as string;
+      const [base] = symbol.split("/");
       return (
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-            {symbol.slice(0, 2)}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-transparent flex items-center justify-center font-semibold text-sm shadow-sm">
+            {base}
           </div>
-          <span className="font-medium">{symbol}</span>
+          <div>
+            <div className="font-medium">{symbol}</div>
+            <div className="text-xs text-muted-foreground/80">
+              {row.original.name}
+            </div>
+          </div>
         </div>
       );
     },
   },
   {
     accessorKey: "rate",
-    header: "Rate",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Rate" />
+    ),
     cell: ({ row }) => {
       const rate = row.getValue("rate") as number;
-      return <div className="font-mono">{rate.toFixed(4)}</div>;
+      return <div className="font-mono tabular-nums">${rate.toFixed(4)}</div>;
     },
   },
   {
     accessorKey: "change",
-    header: "24h Change",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="24h Change" />
+    ),
+    sortDescFirst: true, // Add default descending sort
     cell: ({ row }) => {
       const change = row.getValue("change") as number;
       const isPositive = change > 0;
@@ -56,7 +69,9 @@ export const columns: ColumnDef<ExchangeRate>[] = [
   },
   {
     accessorKey: "volume",
-    header: "Volume",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Volume" />
+    ),
     cell: ({ row }) => {
       const volume = row.getValue("volume") as number;
       return new Intl.NumberFormat("en-US", {
@@ -68,6 +83,8 @@ export const columns: ColumnDef<ExchangeRate>[] = [
   },
   {
     accessorKey: "lastUpdate",
-    header: "Last Update",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last Update" />
+    ),
   },
 ];
