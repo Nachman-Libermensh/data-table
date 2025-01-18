@@ -49,33 +49,16 @@ export default function DataTableBody<TData>({
   });
 
   const getChevronClasses = (isExpanded: boolean) => ({
-    // Base positioning and size
     "absolute top-1/2 -translate-y-1/2 h-4 w-4": true,
     [isRTL ? "left-3" : "right-3"]: true,
-
-    // Enhanced transitions with transform
-    "transition-all duration-200 ease-in-out transform": true,
-
-    // RTL-aware rotation
+    "transition-all duration-200": true,
     [isExpanded ? (isRTL ? "-rotate-90" : "rotate-90") : "rotate-0"]: true,
-
-    // Enhanced colors with opacity transitions
-    "text-muted-foreground/50": !isExpanded,
+    "text-muted-foreground/60": !isExpanded,
     "text-primary/70": isExpanded,
-
-    // Improved hover effects
-    "group-hover:text-foreground/80": true,
-
-    // Direction and state aware transforms
-    ...(!isExpanded
-      ? {
-          [`group-hover:${isRTL ? "-translate-x-0.5" : "translate-x-0.5"}`]:
-            true,
-          "group-hover:scale-110": true,
-        }
-      : {
-          "scale-105": true,
-        }),
+    "group-hover:text-foreground/70": true,
+    [!isExpanded
+      ? `group-hover:${isRTL ? "-translate-x-0.5" : "translate-x-0.5"}`
+      : ""]: true,
   });
 
   const getSubRowClasses = () =>
@@ -83,19 +66,16 @@ export default function DataTableBody<TData>({
       // Base animation classes
       "animate-in duration-200 ease-out",
 
-      // RTL-aware slide animations
-      isRTL ? "slide-in-from-left-2" : "slide-in-from-right-2",
+      // Replace slide with fade + scale
+      "fade-in-0 zoom-in-95",
 
       // Exit animations
       "data-[state=closed]:animate-out",
-      isRTL
-        ? "data-[state=closed]:slide-out-to-left-2"
-        : "data-[state=closed]:slide-out-to-right-2",
-      "data-[state=closed]:fade-out",
+      "data-[state=closed]:fade-out-0",
+      "data-[state=closed]:zoom-out-95",
       "data-[state=closed]:duration-200",
 
-      // Transition smoothing
-      "transition-all",
+      // Prevent layout shift
       "overflow-hidden"
     );
 
