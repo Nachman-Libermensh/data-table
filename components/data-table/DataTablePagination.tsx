@@ -28,10 +28,10 @@ function DataTablePagination() {
   const LastIcon = isRTL ? ChevronFirst : ChevronLast;
 
   return (
-    <div className="py-4 px-2">
-      <div className="flex items-center justify-between">
+    <div className="px-2 py-3">
+      <div className="flex items-center justify-between gap-4">
         {/* Page Size Controls */}
-        <div className="flex items-center space-x-2.5 rtl:space-x-reverse">
+        <div className="flex items-center gap-2 rtl:space-x-reverse">
           <p className="text-sm font-medium text-muted-foreground/80">
             {isRTL ? "הצג" : "Show"}
           </p>
@@ -62,8 +62,8 @@ function DataTablePagination() {
         </div>
 
         {/* Pagination Controls */}
-        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-          <div className="flex items-center space-x-1 rtl:space-x-reverse">
+        <div className="rtl:gap-x-reverse flex items-center gap-2">
+          <div className="rtl:gap-x-reverse flex items-center gap-1">
             <Button
               variant="outline"
               size="icon"
@@ -84,22 +84,22 @@ function DataTablePagination() {
             </Button>
           </div>
 
-          <div className="flex items-center space-x-2 rtl:space-x-reverse px-2">
+          <div className="rtl:gap-x-reverse flex items-center gap-2 px-1">
             <p className="text-sm font-medium text-muted-foreground/80">
               {isRTL ? "עמוד" : "Page"}
             </p>
-            <span className="text-sm font-semibold text-foreground min-w-[1ch] text-center tabular-nums">
+            <span className="min-w-[1ch] text-center text-sm font-semibold tabular-nums text-foreground">
               {table.getState().pagination.pageIndex + 1}
             </span>
             <p className="text-sm font-medium text-muted-foreground/80">
               {isRTL ? "מתוך" : "of"}
             </p>
-            <span className="text-sm font-semibold text-foreground min-w-[1ch] text-center tabular-nums">
+            <span className="min-w-[1ch] text-center text-sm font-semibold tabular-nums text-foreground">
               {table.getPageCount()}
             </span>
           </div>
 
-          <div className="flex items-center space-x-1 rtl:space-x-reverse">
+          <div className="rtl:gap-x-reverse flex items-center gap-1">
             <Button
               variant="outline"
               size="icon"

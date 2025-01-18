@@ -95,7 +95,7 @@ export default function DataTableLayout<TData, TValue>({
       <DirectionProvider value={direction || "ltr"}>
         <section className="px-1 py-2 space-y-2">
           {toolbar && <DataTableToolBar config={toolbar} />}
-          <div className="rounded-md border bg-background">
+          <div className="rounded-md border">
             <Table>
               <DataTableHeader />
               <DataTableBody
