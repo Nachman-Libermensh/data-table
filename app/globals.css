@@ -28,10 +28,10 @@ body {
   }
 
   /* Text Selection */
-  ::selection {
+  /* ::selection {
     background: hsl(var(--primary) / 0.1);
     color: hsl(var(--primary));
-  }
+  } */
 
   /* Smooth Scrolling */
   html {
@@ -39,23 +39,23 @@ body {
   }
 
   /* Focus Outline */
-  :focus-visible {
+  /* :focus-visible {
     outline: 2px solid hsl(var(--primary));
     outline-offset: 2px;
-  }
+  } */
 
   /* Table Improvements */
-  table {
+  /* table {
     border-collapse: separate;
     border-spacing: 0;
-  }
+  } */
 
   /* Number Input Arrows */
-  input[type="number"]::-webkit-inner-spin-button,
+  /* input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     opacity: 1;
     margin-left: 0.5em;
-  }
+  } */
 
   /* Card Hover Effect */
   .card-hover-effect {
