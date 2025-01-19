@@ -93,7 +93,7 @@ export default function DataTableLayout<TData, TValue>({
   return (
     <DataTableContext.Provider value={table}>
       <DirectionProvider value={direction || "ltr"}>
-        <section className="space-y-4">
+        <section className="space-y-2 w-full px-1">
           {toolbar && <DataTableToolBar config={toolbar} />}
           <div className="rounded-md border bg-card shadow-sm">
             <Table>
