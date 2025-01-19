@@ -93,15 +93,15 @@ export default function DataTableLayout<TData, TValue>({
   return (
     <DataTableContext.Provider value={table}>
       <DirectionProvider value={direction || "ltr"}>
-        <section className="px-1 py-2 space-y-2">
+        <section className="space-y-4">
           {toolbar && <DataTableToolBar config={toolbar} />}
-          <div className="rounded-md border">
+          <div className="rounded-md border bg-card shadow-sm">
             <Table>
               <DataTableHeader />
               <DataTableBody
                 onRowClick={onRowClick}
                 selectedId={selectedId}
-                renderSubRow={renderSubRow} // Add this line
+                renderSubRow={renderSubRow}
               />
             </Table>
           </div>

@@ -10,16 +10,22 @@ function DataTableHeader() {
   const dir = useDirection();
 
   return (
-    <TableHeader>
+    <TableHeader className="bg-muted/10">
       {getHeaderGroups().map((headerGroup) => (
-        <TableRow key={headerGroup.id}>
+        <TableRow
+          key={headerGroup.id}
+          className="border-b transition-colors hover:bg-muted/5 data-[hover=true]:bg-muted/15"
+        >
           {headerGroup.headers.map((header) => (
             <TableHead
               key={header.id}
               colSpan={header.colSpan}
               className={cn(
+                "h-11 px-3",
+                "text-xs font-medium text-muted-foreground/80",
                 dir === "rtl" ? "text-right" : "text-left",
-                "transition-colors hover:bg-muted/50"
+                "transition-colors first:rounded-tr-md last:rounded-tl-md",
+                "group/header"
               )}
             >
               {header.isPlaceholder
