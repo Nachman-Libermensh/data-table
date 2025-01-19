@@ -66,6 +66,8 @@ export default function RtlExample() {
           data={data}
           direction="rtl"
           expandable
+          enableColumnReorder
+          enableColumnResize
           renderSubRow={() => <div>Sub row content</div>}
           toolbar={{
             controls: [

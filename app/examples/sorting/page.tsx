@@ -177,7 +177,14 @@ export default function SortingExample() {
               </div>
             </div>
           ) : (
-            <DataTable columns={columns} data={data} toolbar={toolbarConfig} />
+            <DataTable
+              direction="ltr"
+              columns={columns}
+              data={data}
+              toolbar={toolbarConfig}
+              enableColumnReorder={true}
+              enableColumnResize={true}
+            />
           )}
         </div>
       </div>
